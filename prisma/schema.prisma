@@ -1,0 +1,23 @@
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Secret {
+  id          String   @id @default(uuid())
+  threshold   Int
+  createdAt   DateTime @default(now())
+  shares      Share[]
+}
+
+model Share {
+  id        String   @id @default(uuid())
+  content   String   
+  xIndex    Int      
+  secretId  String
+  secret    Secret   @relation(fields: [secretId], references: [id])
+}

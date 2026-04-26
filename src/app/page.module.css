@@ -1,0 +1,263 @@
+
+.page-container {
+  min-height: 100vh;
+  background-color: #f8fafc;
+  padding: 60px 0;
+  color: #0f172a;
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+.content-wrapper {
+  width: 800px; /* Ancho fijo para escritorio */
+  margin: 0 auto;
+}
+
+/* --- ENCABEZADO --- */
+.header-section {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.main-title {
+  font-size: 42px;
+  font-weight: 900;
+  letter-spacing: -1.5px;
+  margin: 0;
+  color: #1e293b;
+  text-transform: uppercase;
+}
+
+.blue-highlight {
+  color: #2563eb;
+  font-family: monospace;
+}
+
+/* --- MENÚ PRINCIPAL (BOTONES DE SELECCIÓN) --- */
+.menu-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+  margin-top: 50px;
+}
+
+.menu-button {
+  width: 500px;
+  display: flex;
+  align-items: center;
+  padding: 30px;
+  border-radius: 16px;
+  border: 2px solid #e2e8f0;
+  background: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+}
+
+.menu-button:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+  border-color: #2563eb;
+}
+
+.menu-button .icon {
+  font-size: 40px;
+  margin-right: 25px;
+}
+
+.menu-button strong {
+  display: block;
+  font-size: 20px;
+  color: #1e293b;
+  margin-bottom: 4px;
+}
+
+.menu-button p {
+  margin: 0;
+  color: #64748b;
+  font-size: 14px;
+}
+
+/* --- FORMULARIOS Y ESTRUCTURA DE INPUTS --- */
+
+/* Estilo para el contenedor blanco (usado en SplitForm y RecoverForm) */
+.form-card {
+  background: white;
+  padding: 40px;
+  border-radius: 20px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.input-unit {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.input-unit label {
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #64748b;
+  margin-bottom: 8px;
+  letter-spacing: 0.5px;
+}
+
+/* LOS INPUTS AZUL CLARITO */
+input[type="text"],
+input[type="number"] {
+  background-color: #e0f2fe; /* Azul clarito solicitado */
+  border: 1px solid #93c5fd;
+  border-radius: 8px;
+  padding: 12px 15px;
+  font-size: 16px;
+  color: #1e293b;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+input:focus {
+  border-color: #2563eb;
+  background-color: #d1edff;
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+}
+
+/* FILAS DE INPUTS (Para N y K, o para X y Fragmento) */
+.form-group-row {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.form-group-row .input-unit {
+  flex: 1;
+}
+
+/* --- BOTONES --- */
+.primary-button {
+  background-color: #1e293b;
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  border-radius: 10px;
+  font-weight: 800;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.primary-button:hover {
+  background-color: #000000;
+}
+
+.primary-button:disabled {
+  background-color: #cbd5e1;
+  cursor: not-allowed;
+}
+
+.back-link {
+  background: none;
+  border: none;
+  color: #2563eb;
+  font-weight: bold;
+  cursor: pointer;
+  margin-bottom: 20px;
+  font-size: 14px;
+  display: inline-block;
+}
+
+.back-link:hover {
+  text-decoration: underline;
+}
+
+/* --- MENSAJES DE ERROR Y ÉXITO --- */
+.error-box {
+  background-color: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #b91c1c;
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.secret-reveal-box {
+  margin-top: 30px;
+  background-color: #f0fdf4;
+  border: 2px solid #22c55e;
+  padding: 30px;
+  border-radius: 15px;
+  text-align: center;
+}
+
+.secret-reveal-box span {
+  color: #166534;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 12px;
+}
+
+.secret-reveal-box strong {
+  display: block;
+  font-size: 38px;
+  color: #14532d;
+  font-family: 'Courier New', Courier, monospace;
+  margin-top: 10px;
+}
+
+/* --- RESULTADOS DE FRAGMENTOS (PANTALLA CREAR) --- */
+.result-header {
+  background-color: #2563eb;
+  padding: 25px;
+  border-radius: 15px;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 40px;
+}
+
+.share-card {
+  background-color: white;
+  border: 1px solid #e2e8f0;
+  padding: 20px;
+  border-radius: 12px;
+  margin-top: 15px;
+}
+
+.share-content {
+  font-family: monospace;
+  font-size: 18px;
+  font-weight: 700;
+  word-break: break-all;
+  color: #334155;
+  margin-top: 10px;
+}
+
+.badge-row {
+  display: flex;
+  gap: 10px;
+}
+
+.id-badge {
+  font-size: 10px;
+  background: #f1f5f9;
+  padding: 3px 10px;
+  border-radius: 5px;
+  color: #64748b;
+  font-weight: bold;
+}
+
+/* --- ANIMACIÓN --- */
+.view-container {
+  animation: slideUp 0.4s ease-out;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
