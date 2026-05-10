@@ -1,26 +1,22 @@
 import { NextResponse } from 'next/server';
-import { prisma } from '@/lib/prisma';
 import { Shamir } from '@/lib/shamir';
 
 export async function POST(req: Request) {
     try {
-        const { shareIds } = await req.json();
+        const { shares } = await req.json(); // Viene de RecoverForm como [{x, y}, ...]
 
-        const dbShares = await prisma.share.findMany({
-            where: { id: { in: shareIds } }
-        });
-
-        if (dbShares.length === 0) {
-            return NextResponse.json({ error: "No se encontraron fragmentos" }, { status: 404 });
+        if (!shares || shares.length === 0) {
+            return NextResponse.json({ error: "No se proporcionaron fragmentos" }, { status: 400 });
         }
 
-        const result = Shamir.combine(dbShares.map((d) => ({
-            x: d.xIndex,
-            content: d.content
+        // Llamamos a la lógica de interpolación
+        const recoveredSecret = Shamir.combine(shares.map((s: any) => ({
+            x: Number(s.x),
+            content: s.y
         })));
 
-        return NextResponse.json({ secret: result });
-    } catch (error) {
-        return NextResponse.json({ error: "Error al reconstruir" }, { status: 400 });
+        return NextResponse.json({ secret: recoveredSecret });
+    } catch (error: any) {
+        return NextResponse.json({ error: "Error al reconstruir. Asegúrate de tener suficientes fragmentos." }, { status: 400 });
     }
 }

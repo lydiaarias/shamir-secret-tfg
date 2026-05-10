@@ -1,5 +1,4 @@
 import { NextResponse } from 'next/server';
-import { prisma } from '@/lib/prisma';
 import { Shamir } from '@/lib/shamir';
 
 export async function POST(req: Request) {
@@ -21,37 +20,24 @@ export async function POST(req: Request) {
       );
     }
 
-    // 2. Generar los fragmentos usando el polinomio f(x) = S + a1x + a2x^2...
-    // Esta función ahora devuelve un array de strings decimales
-    const shares = Shamir.split(text, n, k);
+    // 2. Generar el ID único de 10 dígitos
+    const sharedId = Math.floor(1000000000 + Math.random() * 9000000000).toString();
 
-    // 3. Guardar el "Secreto" principal en la base de datos
-    // No guardamos el texto original por seguridad, solo la configuración
-    const newSecret = await prisma.secret.create({
-      data: {
-        threshold: k,
-      },
-    });
+    // 3. Generar los fragmentos usando Shamir
+    const sharesValues = Shamir.split(text, n, k);
 
-    // 4. Bucle de guardado de los fragmentos (Shares)
-    // Guardamos i + 1 como xIndex para que x sea 1, 2, 3, 4, 5, 6...
-    const savedShares = [];
-    for (let i = 0; i < shares.length; i++) {
-      const share = await prisma.share.create({
-        data: {
-          content: shares[i],   // Este es el valor f(x)
-          xIndex: i + 1,        // Este es el valor x
-          secretId: newSecret.id,
-        },
-      });
-      savedShares.push(share);
-    }
+    // 4. Mapear los fragmentos para que incluyan el ID común y su índice X
+    const formattedShares = sharesValues.map((content, i) => ({
+      id: sharedId,      // El mismo ID para todos los fragmentos
+      xIndex: i + 1,
+      content: content
+    }));
 
-    // 5. Responder al cliente con los datos generados
+    // 5. Responder al cliente
     return NextResponse.json({
-      id: newSecret.id,
-      threshold: newSecret.threshold,
-      shares: savedShares, // Enviamos los fragmentos para que el usuario los vea
+      id: sharedId,
+      threshold: k,
+      shares: formattedShares,
     });
 
   } catch (error: any) {
