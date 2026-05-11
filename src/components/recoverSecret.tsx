@@ -1,4 +1,5 @@
 "use client";
+
 import { useState } from "react";
 import "./style.css"; 
 
@@ -8,29 +9,41 @@ export default function RecoverForm() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
+  // Añadir una nueva fila para otro participante
   const addShareField = () => setShares([...shares, { x: "", y: "" }]);
 
   const updateShare = (index: number, field: "x" | "y", value: string) => {
     const newShares = [...shares];
     newShares[index][field] = value;
     setShares(newShares);
-    if (error) setError(null);
+    if (error) setError(null); 
   };
 
+  // Función principal de recuperación
   const handleRecover = async () => {
     setLoading(true);
     setError(null);
     setRecoveredSecret(null);
+
     try {
       const response = await fetch("/api/recover", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ shares: shares.filter(s => s.x !== "" && s.y !== "") }),
+        body: JSON.stringify({ 
+          shares: shares.filter(s => s.x !== "" && s.y !== "") 
+        }),
       });
+      
       const data = await response.json();
-      if (!response.ok) throw new Error(data.error || "Error al reconstruir");
+
+      if (!response.ok) {
+        throw new Error(data.error || "Error al reconstruir el secreto");
+      }
+      
+      // Si todo va bien, se muestra el secreto (sin la "marca de agua" "REAL")
       setRecoveredSecret(data.secret);
     } catch (err: any) {
+      // Aquí se mostrará el mensaje: "El secreto no existe o los fragmentos son incorrectos."
       setError(err.message);
     } finally {
       setLoading(false);
@@ -41,7 +54,7 @@ export default function RecoverForm() {
     <div className="vault-card">
       <h2 className="vault-title">Desvelar Secreto</h2>
       <p className="vault-description">
-        Introduce el <strong>Índice X</strong> y el <strong>Fragmento</strong> para reconstruir el secreto original.
+        Introduce el <strong>Índice X</strong> y el <strong>Fragmento</strong> de cada participante para reconstruir el secreto original.
       </p>
       
       <div className="shares-input-container">
@@ -69,17 +82,31 @@ export default function RecoverForm() {
         ))}
       </div>
 
-      {error && <div className="error-box"><strong>⚠️ Error:</strong> {error}</div>}
+      {/* Se emitirá un mensaje de error si el secreto no existe o si alguno de los fragmentos es erróneo */}
+      {error && (
+        <div className="error-box">
+          <strong> ERROR:</strong> {error}
+        </div>
+      )}
 
       <div className="action-group">
-        <button type="button" onClick={addShareField} className="primary-button btn-secondary">
+        <button 
+          type="button" 
+          onClick={addShareField} 
+          className="primary-button btn-secondary"
+        >
           + Añadir participante
         </button>
-        <button onClick={handleRecover} disabled={loading || shares.length < 1} className="primary-button">
+        <button 
+          onClick={handleRecover} 
+          disabled={loading || shares.length < 1} 
+          className="primary-button"
+        >
           {loading ? "CALCULANDO..." : "DESVELAR SECRETO"}
         </button>
       </div>
 
+      {/* Resultado de la recuperación  */}
       {recoveredSecret && (
         <div className="secret-reveal-box">
           <span>El secreto recuperado es:</span>

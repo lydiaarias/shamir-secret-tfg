@@ -82,7 +82,7 @@ export default function ShamirPage() {
                   <div key={`${s.id}-${s.xIndex}`} className="share-card">
                      <div className="badge-row">
                         <span className="id-badge">SHARE ID: {s.id}</span>
-                        //Indice X necesario para la fórmula matemática
+                        {/*Indice X necesario para la fórmula matemática*/}
                         <span className="id-badge" style={{backgroundColor: '#dbeafe', color: '#2563eb'}}>
                           X: {s.xIndex}
                         </span>

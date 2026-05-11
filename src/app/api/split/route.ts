@@ -5,7 +5,7 @@ export async function POST(req: Request) {
   try {
     const { text, n, k } = await req.json();
 
-    // 1. Validaciones básicas
+    {/*1. Validaciones básicas*/}
     if (!text || !n || !k) {
       return NextResponse.json(
         { error: 'Faltan parámetros (text, n o k)' },
@@ -20,20 +20,20 @@ export async function POST(req: Request) {
       );
     }
 
-    // 2. Generar el ID único de 10 dígitos
+    {/*2. Generar el ID único de 10 dígitos*/}
     const sharedId = Math.floor(1000000000 + Math.random() * 9000000000).toString();
 
-    // 3. Generar los fragmentos usando Shamir
+    {/*3. Generar los fragmentos usando Shamir*/}
     const sharesValues = Shamir.split(text, n, k);
 
-    // 4. Mapear los fragmentos para que incluyan el ID común y su índice X
+    {/*4. Mapear los fragmentos para que incluyan el ID común y su índice X*/}
     const formattedShares = sharesValues.map((content, i) => ({
       id: sharedId,      // El mismo ID para todos los fragmentos
       xIndex: i + 1,
       content: content
     }));
 
-    // 5. Responder al cliente
+    {/*5. Responder al cliente*/}
     return NextResponse.json({
       id: sharedId,
       threshold: k,
