@@ -9,10 +9,14 @@ export async function POST(req: Request) {
             return NextResponse.json({ error: "No se proporcionaron fragmentos" }, { status: 400 });
         }
 
+        console.time("reconstruccion");
+
         const recoveredSecret = Shamir.combine(shares.map((s: any) => ({
             x: Number(s.x),
             content: s.y
         })));
+
+        console.timeEnd("reconstruccion");
 
         return NextResponse.json({ secret: recoveredSecret });
     } catch (error: any) {

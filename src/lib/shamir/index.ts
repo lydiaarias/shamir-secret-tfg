@@ -5,7 +5,7 @@ export class Shamir {
     private static VALIDATION_TAG = "REAL";
 
     static split(text: string, n: number, k: number): string[] {
-        // Añadimos "REAL" al final del secreto antes de dividirlo
+        // Se añade "REAL" al final del secreto antes de dividirlo
         const signedText = text + this.VALIDATION_TAG;
         
         let S: bigint;

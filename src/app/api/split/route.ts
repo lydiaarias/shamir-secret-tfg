@@ -24,7 +24,11 @@ export async function POST(req: Request) {
     const sharedId = Math.floor(1000000000 + Math.random() * 9000000000).toString();
 
     {/*3. Generar los fragmentos usando Shamir*/}
+    console.time("fragmentacion");
+
     const sharesValues = Shamir.split(text, n, k);
+
+    console.timeEnd("fragmentacion");
 
     {/*4. Mapear los fragmentos para que incluyan el ID común y su índice X*/}
     const formattedShares = sharesValues.map((content, i) => ({
